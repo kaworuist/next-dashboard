@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -20,7 +20,7 @@
       }
     ],
     "paths": {
-      "@/app/*": ["app/*"]
+      "@/*": ["./*"]
     }
   },
   "include": [
