@@ -18,6 +18,7 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./",
     "paths": {
       "@/*": ["./*"]
     }
@@ -28,12 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.js",
-    "scripts/seed.js"
+    "scripts/seed.js",
   ],
   "exclude": ["node_modules"],
-
-  "baseUrl": "*", 
-  "paths": {
-  "@/app/*": ["app/*"]
-}
 }
