@@ -31,8 +31,9 @@
     "scripts/seed.js"
   ],
   "exclude": ["node_modules"],
-  "baseUrl": ".", 
+
+  "baseUrl": "*", 
   "paths": {
-    "@/app/*": ["app/*"]
-  }
+  "@/app/*": ["app/*"]
+}
 }
