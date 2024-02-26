@@ -31,5 +31,8 @@
     "app/lib/placeholder-data.js",
     "scripts/seed.js"
   ],
+  "paths": {
+    "@/*": ["./*"]
+  },
   "exclude": ["node_modules"]
 }
