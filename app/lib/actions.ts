@@ -1,6 +1,8 @@
-'use server';
+'use server'; 
 
+import { signIn } from '@/auth';
 import { sql } from '@vercel/postgres';
+import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {z} from 'zod';
@@ -12,6 +14,25 @@ export type State = {
     status?: string[];
   };
   message?: string | null
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn('credentials', formData)
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.'
+        default:
+          return 'Something went wrong.'
+      }
+    }
+    throw error
+  }
 }
 
 const FormSchema = z.object({
@@ -55,7 +76,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
       message: 'Database Error: Failed to Create Invoice.',
     };
   }
-  revalidatePath('/dashboard/invoices')
+  // revalidatePath('/dashboard/invoices')
   redirect('/dashboard/invoices')
 }
 
@@ -94,7 +115,6 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
 }
 
 export async function deleteInvoice(id: string) {
-  throw new Error('Failed to Delete Invoice');
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
