@@ -35,6 +35,23 @@ export async function authenticate(
   }
 }
 
+export async function authenticateGit(
+) {
+  try {
+    await signIn('github')
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.'
+        default:
+          return 'Something went wrong.'
+      }
+    }
+    throw error
+  }
+}
+
 const FormSchema = z.object({
   id: z.string(),
   customerId: z.string({

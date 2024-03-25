@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
+import GithubProvider from "next-auth/providers/github"
 import {z} from 'zod';
 import { User } from './app/lib/definitions';
 import { sql } from '@vercel/postgres';
@@ -33,5 +34,9 @@ export const { auth, signIn, signOut } = NextAuth({
         console.log('Invalid credentials')
         return null
     },
+  }),
+  GithubProvider({
+    clientId: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
   })]
 });

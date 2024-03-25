@@ -1,11 +1,13 @@
 import type { NextAuthConfig } from 'next-auth';
  
 export const authConfig = {
+  trustHost: true,
   pages: {
     signIn: '/login',
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
+      console.log(auth)
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       if (isOnDashboard) {
