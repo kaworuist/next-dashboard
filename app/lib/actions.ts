@@ -52,6 +52,24 @@ export async function authenticateGit(
   }
 }
 
+export async function authenticateAzure(
+  ) {
+    try {
+      await signIn('azure-ad')
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return 'Invalid credentials.'
+          default:
+            return 'Something went wrong.'
+        }
+      }
+      throw error
+    }
+  }
+
+
 const FormSchema = z.object({
   id: z.string(),
   customerId: z.string({

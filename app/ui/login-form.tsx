@@ -9,11 +9,12 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from '@/app/lib/actions';
+import { authenticate, authenticateAzure, authenticateGit } from '@/app/lib/actions'
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined)
   return (
+    <>
     <form action={dispatch} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
@@ -78,6 +79,18 @@ export default function LoginForm() {
         </div>
       </div>
     </form>
+    <form action={authenticateAzure}>
+    <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+      <div className="hidden md:block">Sign In With Azure</div>
+    </button>
+  </form>
+  <form action={authenticateGit}>
+    <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+      <div className="hidden md:block">Sign In With Github</div>
+    </button>
+  </form>
+    </>
+    
   );
 }
 

@@ -1,7 +1,8 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
-import GithubProvider from "next-auth/providers/github"
+import GithubProvider from "next-auth/providers/github";
+import AzureAd from "next-auth/providers/azure-ad";
 import {z} from 'zod';
 import { User } from './app/lib/definitions';
 import { sql } from '@vercel/postgres';
@@ -17,9 +18,10 @@ async function getUser(email: string): Promise<User | undefined> {
     }
 }
  
-export const { auth, signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut, handlers: {GET, POST} } = NextAuth({
   ...authConfig,
-  providers: [Credentials({
+  providers: [
+    Credentials({
     async authorize(credentials) {
         const parseCredentials = z
         .object({email: z.string().email(), password: z.string().min(6)})
@@ -38,5 +40,6 @@ export const { auth, signIn, signOut } = NextAuth({
   GithubProvider({
     clientId: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET,
-  })]
+  }),
+  AzureAd({ clientId: process.env.AZURE_AD_CLIENT_ID, clientSecret: process.env.AZURE_AD_CLIENT_SECRET, tenantId: process.env.AZURE_AD_TENANT_ID, })]
 });
