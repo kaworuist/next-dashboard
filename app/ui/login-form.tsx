@@ -10,6 +10,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate, authenticateAzure, authenticateGit } from '@/app/lib/actions'
+import { authServicePromise } from '../api/auth/authService';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined)
@@ -89,6 +90,9 @@ export default function LoginForm() {
       <div className="hidden md:block">Sign In With Github</div>
     </button>
   </form>
+  <button onClick={() => {
+    authServicePromise.then(authservice => authservice.login())
+  }}>use azure msal</button>
     </>
     
   );
